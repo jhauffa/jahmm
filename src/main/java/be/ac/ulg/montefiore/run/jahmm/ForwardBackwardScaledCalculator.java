@@ -35,7 +35,7 @@ extends ForwardBackwardCalculator
 	
 	
 	/**
-	 * Computes the probability of occurence of an observation sequence
+	 * Computes the probability of occurrence of an observation sequence
 	 * given a Hidden Markov Model.  The algorithms implemented use scaling
 	 * to avoid underflows.
 	 *
@@ -60,12 +60,13 @@ extends ForwardBackwardCalculator
 		if (flags.contains(Computation.BETA))
 			computeBeta(hmm, oseq);
 		
-		computeProbability(oseq, hmm, flags);
+		if (flags.contains(Computation.PROBABILITY))
+			computeProbability(oseq, hmm, flags);
 	}
 	
 	
 	/**
-	 * Computes the probability of occurence of an observation sequence
+	 * Computes the probability of occurrence of an observation sequence
 	 * given a Hidden Markov Model.  This computation computes the scaled
 	 * <code>alpha</code> array as a side effect.
 	 * @see #ForwardBackwardScaledCalculator(List, Hmm, EnumSet)
@@ -73,7 +74,7 @@ extends ForwardBackwardCalculator
 	public <O extends Observation>
 	ForwardBackwardScaledCalculator(List<? extends O> oseq, Hmm<O> hmm)
 	{
-		this(oseq, hmm, EnumSet.of(Computation.ALPHA));
+		this(oseq, hmm, EnumSet.of(Computation.ALPHA, Computation.PROBABILITY));
 	}
 	
 	

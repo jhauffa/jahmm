@@ -26,7 +26,7 @@ public class ForwardBackwardCalculator
 	 * should be computed (either forward, using the alpha array, or backward,
 	 * using the beta array).
 	 */
-	public static enum Computation { ALPHA, BETA };
+	public static enum Computation { ALPHA, BETA, PROBABILITY };
 	
 	
 	/* alpha[t][i] = P(O(1), O(2),..., O(t+1), i(t+1) = i+1 | hmm), that is the
@@ -43,7 +43,7 @@ public class ForwardBackwardCalculator
 	
 	
 	/**
-	 * Computes the probability of occurence of an observation sequence
+	 * Computes the probability of occurrence of an observation sequence
 	 * given a Hidden Markov Model.
 	 *
 	 * @param hmm A Hidden Markov Model;
@@ -64,12 +64,13 @@ public class ForwardBackwardCalculator
 		if (flags.contains(Computation.BETA))
 			computeBeta(hmm, oseq);
 		
-		computeProbability(oseq, hmm, flags);
+		if (flags.contains(Computation.PROBABILITY))
+			computeProbability(oseq, hmm, flags);
 	}
 	
 	
 	/**
-	 * Computes the probability of occurence of an observation sequence
+	 * Computes the probability of occurrence of an observation sequence
 	 * given a Hidden Markov Model.  This computation computes the
 	 * <code>alpha</code> array as a side effect.
 	 * @see #ForwardBackwardCalculator(List, Hmm, EnumSet)
@@ -77,7 +78,7 @@ public class ForwardBackwardCalculator
 	public <O extends Observation>
 	ForwardBackwardCalculator(List<? extends O> oseq, Hmm<O> hmm)
 	{
-		this(oseq, hmm, EnumSet.of(Computation.ALPHA));
+		this(oseq, hmm, EnumSet.of(Computation.ALPHA, Computation.PROBABILITY));
 	}
 	
 	

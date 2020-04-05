@@ -34,7 +34,8 @@ extends BaumWelchLearner
 			Hmm<O> hmm)
 	{
 		return new ForwardBackwardScaledCalculator(sequence, hmm, 
-				EnumSet.allOf(ForwardBackwardCalculator.Computation.class));
+				EnumSet.of(ForwardBackwardCalculator.Computation.ALPHA,
+						   ForwardBackwardCalculator.Computation.BETA));
 	}
 	
 	
