@@ -102,9 +102,7 @@ public class KMeansLearner<O extends Observation & CentroidFactory<? super O>>
 	private void learnPi(Hmm<?> hmm)
 	{	
 		double[] pi = new double[nbStates];
-		
-		for (int i = 0; i < nbStates; i++)
-			pi[i] = 0.;
+		Arrays.fill(pi, 0.);
 		
 		for (List<? extends O> sequence : obsSeqs)
 			pi[clusters.clusterNb(sequence.get(0))]++;
@@ -178,10 +176,10 @@ public class KMeansLearner<O extends Observation & CentroidFactory<? super O>>
 			for (int i = 0; i < states.length; i++) {
 				O o = obsSeq.get(i);
 				
-				if (clusters.clusterNb(o) != states[i]) {
+				int curClusterNb = clusters.clusterNb(o);
+				if (curClusterNb != states[i]) {
 					modif = true;
-					clusters.remove(o, clusters.clusterNb(o));
-					clusters.put(o, states[i]);
+					clusters.move(o, curClusterNb, states[i]);
 				}
 			}
 		}
@@ -207,58 +205,30 @@ public class KMeansLearner<O extends Observation & CentroidFactory<? super O>>
  */
 class Clusters<O extends CentroidFactory<? super O>>
 {	
-	class Value
-	{
-		private int clusterNb;
-		
-		Value(int clusterNb)
-		{
-			this.clusterNb = clusterNb;
-		}
-		
-		void setClusterNb(int clusterNb)
-		{
-			this.clusterNb = clusterNb;
-		}
-		
-		int getClusterNb()
-		{
-			return clusterNb;
-		}
-	}
-	
-	
-	private Hashtable<O,Value> clustersHash;
+	private HashMap<O,Integer> clustersHash;
 	private ArrayList<Collection<O>> clusters;
 	
 	
 	public Clusters(int k, List<? extends O> observations)
 	{
-		
-		clustersHash = new Hashtable<O,Value>();
-		clusters = new ArrayList<Collection<O>>();
+		clustersHash = new HashMap<O,Integer>();
+		clusters = new ArrayList<Collection<O>>(k);
 		
 		KMeansCalculator<O> kmc = new KMeansCalculator<O>(k, observations);
 		
 		for (int i = 0; i < k; i++) {
-			Collection<O> cluster = kmc.cluster(i);
+			Collection<O> cluster = new HashSet<O>(kmc.cluster(i));
 			clusters.add(cluster);
 			
 			for (O element : cluster) 
-				clustersHash.put(element, new Value(i));
+				clustersHash.put(element, i);
 		}
 	}
 	
 	
-	public boolean isInCluster(Observation o, int clusterNb)
+	public int clusterNb(O o)
 	{
-		return clusterNb(o) == clusterNb;
-	}
-	
-	
-	public int clusterNb(Observation o)
-	{
-		return clustersHash.get(o).getClusterNb();
+		return clustersHash.get(o);
 	}
 	
 	
@@ -268,16 +238,10 @@ class Clusters<O extends CentroidFactory<? super O>>
 	}
 	
 	
-	public void remove(Observation o, int clusterNb)
+	public void move(O o, int fromClusterNb, int toClusterNb)
 	{
-		clustersHash.get(o).setClusterNb(-1);
-		clusters.get(clusterNb).remove(o);
-	}
-	
-	
-	public void put(O o, int clusterNb)
-	{
-		clustersHash.get(o).setClusterNb(clusterNb);
-		clusters.get(clusterNb).add(o);
+		clusters.get(fromClusterNb).remove(o);
+		clusters.get(toClusterNb).add(o);
+		clustersHash.put(o, toClusterNb);
 	}
 }

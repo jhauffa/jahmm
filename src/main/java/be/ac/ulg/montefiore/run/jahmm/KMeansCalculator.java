@@ -38,7 +38,7 @@ public class KMeansCalculator<K extends CentroidFactory<? super K>>
 		 */
 		public Cluster()
 		{
-			elements = new ArrayList<L>();
+			elements = new LinkedList<L>();
 			centroid = null;
 		}
 		
@@ -50,7 +50,7 @@ public class KMeansCalculator<K extends CentroidFactory<? super K>>
 		 */
 		public Cluster(L e)
 		{
-			elements = new ArrayList<L>();
+			elements = new LinkedList<L>();
 			elements.add(e);
 			centroid = e.factor();
 		}
@@ -61,9 +61,15 @@ public class KMeansCalculator<K extends CentroidFactory<? super K>>
 		 *
 		 * @return The elements of this cluster.
 		 */
-		public List<L> elements()
+		public Collection<L> elements()
 		{
 			return elements;
+		}
+		
+		
+		public Iterator<L> elementIterator()
+		{
+			return elements.iterator();
 		}
 		
 		
@@ -78,10 +84,10 @@ public class KMeansCalculator<K extends CentroidFactory<? super K>>
 		}
 		
 		
-		public void remove(int i)
+		public void remove(Iterator<L> it, L e)
 		{
-			centroid.reevaluateRemove(elements.get(i), elements);
-			elements.remove(i);
+			centroid.reevaluateRemove(e, elements);
+			it.remove();
 		}
 		
 		
@@ -146,10 +152,10 @@ public class KMeansCalculator<K extends CentroidFactory<? super K>>
 			
 			for (int i = 0; i < k; i++) {
 				Cluster<K> thisCluster = clusters.get(i);
-				List<K> thisElements = thisCluster.elements();
 				
-				for (int j = 0; j < thisElements.size(); j++) {
-					K thisElement = thisElements.get(j);
+				Iterator<K> it = thisCluster.elementIterator();
+				while (it.hasNext()) {
+					K thisElement = it.next();
 					
 					/* We don't move an element if it is the only one in
 					 its cluster. */
@@ -158,7 +164,7 @@ public class KMeansCalculator<K extends CentroidFactory<? super K>>
 						
 						if (thisCluster != nearestCluster) {
 							nearestCluster.add(thisElement);
-							thisCluster.remove(j);
+							thisCluster.remove(it, thisElement);
 							terminated = false;
 						}
 					}
