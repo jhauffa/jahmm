@@ -120,7 +120,7 @@ implements Cloneable, CentroidFactory<ObservationVector>
 	 */
 	public ObservationVector times(double c)
 	{
-		ObservationVector p = (ObservationVector) clone();;
+		ObservationVector p = clone();
 		
 		for (int i = 0; i < dimension(); i++)
 			p.value[i] *= c;

@@ -311,7 +311,7 @@ implements Serializable, Cloneable
 				s += " " + nf.format(getAij(i,j));
 			s += "\n";
 			
-			s += "  Opdf: " + ((Opdf<O>) getOpdf(i)).toString(nf) + "\n";
+			s += "  Opdf: " + getOpdf(i).toString(nf) + "\n";
 		}
 			
 		return s;

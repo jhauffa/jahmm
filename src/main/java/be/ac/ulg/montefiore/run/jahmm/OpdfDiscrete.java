@@ -24,7 +24,7 @@ implements Opdf<ObservationDiscrete<E>>
 	/**
 	 * Builds a new probability distribution which operates on a finite set
 	 * of values.
-	 * The probabilities are initialized so that the distribution is uniformaly
+	 * The probabilities are initialized so that the distribution is uniformly
 	 * distributed.
 	 *
 	 * @param valuesClass An {@link Enum Enum} class representing the set of
@@ -76,7 +76,7 @@ implements Opdf<ObservationDiscrete<E>>
 	}
 	
 	
-	public double probability(ObservationDiscrete o){
+	public double probability(ObservationDiscrete<E> o){
 		return distribution.probability(toIntegerMap.get(o.value));
 	}
 	
@@ -147,7 +147,8 @@ implements Opdf<ObservationDiscrete<E>>
 		String s = "Discrete distribution --- ";
 		
 		for (int i = 0; i < values.size();) {
-			ObservationDiscrete o = new ObservationDiscrete<E>(values.get(i));
+			ObservationDiscrete<E> o =
+					new ObservationDiscrete<E>(values.get(i));
 			
 			s += o + " " + numberFormat.format(probability(o)) +
 			((++i < values.size()) ? ", " : "");

@@ -79,7 +79,7 @@ implements MultiRandomDistribution
 	 */
 	public double[] mean()
 	{
-		return (double[]) mean.clone();
+		return mean.clone();
 	}
 	
 	

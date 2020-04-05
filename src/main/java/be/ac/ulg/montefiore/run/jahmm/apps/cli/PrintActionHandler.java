@@ -14,11 +14,11 @@ import be.ac.ulg.montefiore.run.jahmm.io.*;
 
 
 /**
- * Creates a Hmm and writes it to file.
+ * Reads a HMM from a file and prints it in a human readable way.
  */
 class PrintActionHandler extends ActionHandler
 {
-	@SuppressWarnings({"unchecked"}) // We use a generic reader 
+	@SuppressWarnings({"unchecked", "rawtypes"}) // We use a generic reader
 	public void act()
 	throws FileFormatException, IOException, FileNotFoundException,
 	AbnormalTerminationException

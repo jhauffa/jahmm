@@ -19,6 +19,7 @@ extends OpdfReader<Opdf<?>>
 	}
 	
 	
+	@SuppressWarnings("rawtypes")
 	public Opdf<?> read(StreamTokenizer st)
 	throws IOException, FileFormatException
 	{

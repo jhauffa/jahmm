@@ -26,7 +26,7 @@ implements Centroid<ObservationVector>
 	 */
 	public CentroidObservationVector(ObservationVector o)
 	{
-		this.value = (ObservationVector) o.clone();
+		this.value = o.clone();
 	} 
 	
 	
@@ -54,7 +54,7 @@ implements Centroid<ObservationVector>
 	
 	/**
 	 * Returns the distance between this centroid and an element.  The
-	 * distance metric is the euclidian distance.
+	 * distance metric is the Euclidean distance.
 	 *
 	 * @param e The element, which must be an {@link ObservationVector
 	 *          ObservationVector} with a dimension compatible with this
