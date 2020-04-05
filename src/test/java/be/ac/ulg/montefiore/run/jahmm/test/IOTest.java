@@ -26,7 +26,7 @@ extends TestCase
 		"2;4;5; # Don't forget to end the file with a newline\n";
 	
 	protected final String vectorSequences =
-		"[ 1.1 2.2 ] ; [ 4.4 5.5 ] ; [ 4.3 6.0 ] ; [ 7.7 8.8 ] ;\n" +
+		"[ 11.0e-1 22.0e-1 ] ; [ 4.4 5.5 ] ; [ 4.3 6.0 ] ; [ 7.7 8.8 ] ;\n" +
 		"[ 0.5 1.5 ] ; [ 1.5 2.5 ] ; [ 4.5 5.5 ] ; [ 8. 8. ] ; [ 7. 8. ] ;\n";
 	
 	protected final String hmmString = 
@@ -34,7 +34,7 @@ extends TestCase
 		"Hmm v1.0\n" +
 		"NbStates 2\n\n" +
 		"State Pi 0.7\n" +
-		"A 0.1 0.9\n" +
+		"A 1.0e-1 0.9\n" +
 		"IntegerOPDF [ .2 .3 .4 .1 ]\n\n" +
 		"State Pi 0.3\n" +
 		"A 0.4 0.6\n" +
@@ -42,6 +42,8 @@ extends TestCase
 	
 	protected final String integerOPDFString = "IntegerOPDF [ .32 .68 ]";
 	protected final String gaussianOPDFString = "GaussianOPDF [ 1.2 .3 ]";
+	protected final String gaussianOPDFStringSci =
+		"GaussianOPDF [ 12.0e-1 3.0e-1 ]";
 	protected final String gaussianMixtureOPDFString =
 		"GaussianMixtureOPDF [ [ 1.2 2. ] [ .1 .9 ] [ .4 .6 ] ]";
 	protected final String multiGaussianOPDFString =
@@ -77,6 +79,8 @@ extends TestCase
 				new OpdfIntegerWriter());
 		opdfCheck(gaussianOPDFString, new OpdfGaussianReader(),
 				new OpdfGaussianWriter());
+		opdfCheck(gaussianOPDFStringSci, new OpdfGaussianReader(),
+				new OpdfGaussianWriter());
 		opdfCheck(gaussianMixtureOPDFString, new OpdfGaussianMixtureReader(),
 				new OpdfGaussianMixtureWriter());
 		opdfCheck(multiGaussianOPDFString, new OpdfMultiGaussianReader(),
@@ -95,9 +99,12 @@ extends TestCase
 			
 			StreamTokenizer st =
 				new StreamTokenizer(new StringReader(opdfString));
+			HmmReader.initSyntaxTable(st);
 			D opdf = reader.read(st);
 			writer.write(pw, opdf);
-			reader.read(new StreamTokenizer(pr));
+			st = new StreamTokenizer(pr);
+			HmmReader.initSyntaxTable(st);
+			reader.read(st);
 		} catch (FileFormatException e) {
 			fail(e.toString());
 		}

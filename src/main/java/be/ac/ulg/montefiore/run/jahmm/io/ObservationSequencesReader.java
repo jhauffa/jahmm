@@ -40,8 +40,8 @@ public class ObservationSequencesReader
 	 * @param or An observation reader.
 	 * @param reader Holds the character stream reader the sequences are read 
 	 *               from.
-	 * @return A {@link java.util.Vector Vector} of 
-	 *         {@link java.util.Vector Vector}s of
+	 * @return A {@link java.util.List List} of
+	 *         {@link java.util.List List}s of
 	 *         {@link be.ac.ulg.montefiore.run.jahmm.Observation Observation}s.
 	 */
 	static public <O extends Observation> List<List<O>>
@@ -53,10 +53,8 @@ public class ObservationSequencesReader
 		
 		initSyntaxTable(st);
 		
-		for (st.nextToken(); st.ttype != StreamTokenizer.TT_EOF; 
-		st.nextToken()) {
-			st.pushBack();
-			List<O> sequence = new ArrayList<O>(readSequence(or, st));
+		while (true) {
+			List<O> sequence = readSequence(or, st);
 			
 			if (sequence == null)
 				break;
@@ -72,7 +70,12 @@ public class ObservationSequencesReader
 	static void initSyntaxTable(StreamTokenizer st)
 	{
 		st.resetSyntax();
-		st.parseNumbers();
+		st.wordChars('0', '9');
+		st.wordChars('.', '.');
+		st.wordChars('-', '-');
+		st.wordChars('+', '+');
+		st.wordChars('e', 'e');
+		st.wordChars('E', 'E');
 		st.whitespaceChars(0, (int) ' ');
 		st.eolIsSignificant(true);
 		st.commentChar((int) '#');

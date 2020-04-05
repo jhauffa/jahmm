@@ -58,8 +58,14 @@ public abstract class OpdfReader<O extends Opdf<?>>
 	{
 		List<Double> l = new ArrayList<Double>();
 		HmmReader.readWords(st, "[");
-		while (st.nextToken() == StreamTokenizer.TT_NUMBER)
-			l.add(st.nval);
+		while (st.nextToken() == StreamTokenizer.TT_WORD) {
+			try {
+				l.add(Double.valueOf(st.sval));
+			} catch (NumberFormatException ex) {
+				throw new FileFormatException(st.lineno(),
+						"Number expected");
+			}
+		}
 		st.pushBack();
 		HmmReader.readWords(st, "]");
 

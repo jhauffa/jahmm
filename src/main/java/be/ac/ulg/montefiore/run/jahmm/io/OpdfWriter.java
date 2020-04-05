@@ -6,7 +6,6 @@
 package be.ac.ulg.montefiore.run.jahmm.io;
 
 import java.io.*;
-import java.text.DecimalFormat;
 
 import be.ac.ulg.montefiore.run.jahmm.Opdf;
 
@@ -38,12 +37,10 @@ public abstract class OpdfWriter<O extends Opdf<?>>
 	protected void write(Writer writer, double[] array)
 	throws IOException
 	{
-		DecimalFormat formatter = new DecimalFormat("#0.#####");
-		
 		writer.write("[");
 		
 		for (int i = 0; i < array.length; i++)
-			writer.write(" " + formatter.format(array[i]));
+			writer.write(" " + array[i]);
 		
 		writer.write(" ]");
 	}

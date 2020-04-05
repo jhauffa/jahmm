@@ -39,30 +39,10 @@ extends ObservationReader<ObservationReal>
 	public ObservationReal read(StreamTokenizer st) 
 	throws IOException, FileFormatException
 	{	
-		ObservationReal or;
+		ObservationReal or = new ObservationReal(HmmReader.readNumber(st));
 		
-		switch (st.nextToken()) {
-		case StreamTokenizer.TT_EOL:
-		case StreamTokenizer.TT_EOF:
-		case StreamTokenizer.TT_WORD:
-			throw new FileFormatException("Real value expected");
-			
-		case StreamTokenizer.TT_NUMBER:
-			or = new ObservationReal(st.nval);
-			break;
-			
-		default:
-			throw new FileFormatException("Real value expected");
-		}
-		
-		switch (st.nextToken()) {
-		case ';':
-			break;
-			
-		default:
-			if (st.ttype != ';')
-				throw new FileFormatException("';' expected");
-		}
+		if (st.nextToken() != (int) ';')
+			throw new FileFormatException("';' expected");
 		
 		return or;
 	}

@@ -71,11 +71,17 @@ extends ObservationReader<ObservationInteger>
 		
 		st.ordinaryChar((int)'.');
 		
-		if (st.nextToken() == StreamTokenizer.TT_NUMBER) {
-			if (st.nval > nbElements)
+		if (st.nextToken() == StreamTokenizer.TT_WORD) {
+			int nval;
+			try {
+				nval = Integer.parseInt(st.sval);
+			} catch (NumberFormatException ex) {
+				throw new FileFormatException(st.lineno(), "Integer expected");
+			}
+			if (nval > nbElements)
 				throw new FileFormatException(st.lineno(),
 						"Integer higher than maximum value " + (nbElements-1));
-			oi = new ObservationInteger((int) st.nval);
+			oi = new ObservationInteger(nval);
 		} else
 			throw new FileFormatException(st.lineno(), "Integer expected");
 		

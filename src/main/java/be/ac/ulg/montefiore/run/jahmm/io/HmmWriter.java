@@ -7,7 +7,6 @@ package be.ac.ulg.montefiore.run.jahmm.io;
 
 import java.io.IOException;
 import java.io.Writer;
-import java.text.DecimalFormat;
 
 import be.ac.ulg.montefiore.run.jahmm.*;
 
@@ -41,13 +40,11 @@ public class HmmWriter
 			Hmm<O> hmm, int stateNb)
     throws IOException
     {
-		DecimalFormat formatter = new DecimalFormat("#0.######");
-		
-    	writer.write("State\nPi " + formatter.format(hmm.getPi(stateNb)));
+    	writer.write("State\nPi " + hmm.getPi(stateNb));
     	
     	writer.write("\nA ");
     	for (int i = 0; i < hmm.nbStates(); i++)
-    		writer.write(formatter.format(hmm.getAij(stateNb, i)) + " ");
+    		writer.write(hmm.getAij(stateNb, i) + " ");
     	writer.write("\n");
     	
     	D opdf = (D) hmm.getOpdf(stateNb);

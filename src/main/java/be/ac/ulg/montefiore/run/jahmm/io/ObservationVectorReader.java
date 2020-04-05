@@ -78,8 +78,13 @@ extends ObservationReader<ObservationVector>
 		loop: 
 			while(true)
 				switch (st.nextToken()) {
-				case StreamTokenizer.TT_NUMBER:
-					values.add(new Double(st.nval));
+				case StreamTokenizer.TT_WORD:
+					try {
+						values.add(Double.valueOf(st.sval));
+					} catch (NumberFormatException ex) {
+						throw new FileFormatException(st.lineno(),
+								"Number expected");
+					}
 					break;
 					
 				case ']':

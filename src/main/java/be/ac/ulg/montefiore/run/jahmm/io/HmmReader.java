@@ -138,19 +138,26 @@ public class HmmReader
 	{
 		st.nextToken();
 		
-		if (st.ttype != StreamTokenizer.TT_NUMBER)
+		if (st.ttype != StreamTokenizer.TT_WORD)
 			throw new FileFormatException(st.lineno(),
 					"Syntax error: number expected");
-		
-		return st.nval;
+		try {
+			return Double.parseDouble(st.sval);
+		} catch (NumberFormatException ex) {
+			throw new FileFormatException(st.lineno(),
+					"Syntax error: number expected");
+		}
 	}
 
 	
 	/* Initialize the syntax table of a stream tokenizer */
-	static void initSyntaxTable(StreamTokenizer st)
+	public static void initSyntaxTable(StreamTokenizer st)
 	{
 		st.resetSyntax();
-		st.parseNumbers();
+		st.wordChars('0', '9');
+		st.wordChars('.', '.');
+		st.wordChars('-', '-');
+		st.wordChars('+', '+');
 		st.wordChars('a', 'z');
 		st.wordChars('A', 'Z');
 		st.whitespaceChars(0, (int) ' ');
