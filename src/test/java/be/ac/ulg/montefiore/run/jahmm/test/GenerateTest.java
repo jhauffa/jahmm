@@ -5,6 +5,7 @@
 
 package be.ac.ulg.montefiore.run.jahmm.test;
 
+import java.io.File;
 import java.io.IOException;
 
 import junit.framework.TestCase;
@@ -15,7 +16,7 @@ import be.ac.ulg.montefiore.run.jahmm.draw.GenericHmmDrawerDot;
 public class GenerateTest 
 extends TestCase
 {	
-	public final static String outputDir = "";
+	public final static String outputDir = ".";
 	
 	private Hmm<ObservationInteger> hmm;
 
@@ -31,7 +32,9 @@ extends TestCase
 		GenericHmmDrawerDot hmmDrawer = new GenericHmmDrawerDot();
 		
 		try {
-			hmmDrawer.write(hmm, outputDir + "hmm-generate.dot");
+			File outputFile = new File(outputDir, "hmm-generate.dot");
+			outputFile.deleteOnExit();
+			hmmDrawer.write(hmm, outputFile.getPath());
 		}
 		catch (IOException e) {
 			assertTrue("Writing file triggered an exception: " + e, false);
