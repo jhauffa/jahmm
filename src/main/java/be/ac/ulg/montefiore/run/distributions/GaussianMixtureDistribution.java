@@ -5,7 +5,10 @@
 
 package be.ac.ulg.montefiore.run.distributions;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.Random;
+
+import be.ac.ulg.montefiore.run.jahmm.LogSpace;
 
 
 /**
@@ -24,7 +27,7 @@ implements RandomDistribution
 	
 	/**
 	 * Creates a new pseudo-random, Gaussian mixture distribution.  It is
-	 * made of Gaussian distributions evently distributed between 0 and 1 with
+	 * made of Gaussian distributions evenly distributed between 0 and 1 with
 	 * a unitary variance.
 	 *
 	 * @param nbGaussians The number of distributions composing the mixture.
@@ -131,6 +134,19 @@ implements RandomDistribution
 		}
 		
 		throw new RuntimeException("Internal error");
+	}
+	
+	
+	public double logProbability(double n)
+	{
+		double sum = LogSpace.ZERO;
+		
+		for (int i = 0; i < distributions.length; i++)
+			sum = LogSpace.sum(sum,
+					LogSpace.product(distributions[i].logProbability(n),
+									 LogSpace.log(proportions[i])));
+		
+		return sum;
 	}
 	
 	

@@ -50,6 +50,12 @@ implements RandomDistribution
 	}
 	
 	
+	public double logProbability(double n)
+	{
+		return Math.log(rate) + (-n * rate);
+	}
+	
+	
 	public double probability(double n)
 	{
 		return rate * Math.exp(-n * rate);

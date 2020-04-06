@@ -5,7 +5,7 @@
 
 package be.ac.ulg.montefiore.run.distributions;
 
-import java.util.*;
+import java.util.Random;
 
 
 /**
@@ -14,11 +14,18 @@ import java.util.*;
 public class GaussianDistribution
 implements RandomDistribution {
 	
-	private double mean;
-	private double deviation;
-	private double variance;
+	private final double mean;
+	private final double deviation;
+	private final double variance;
+	private final double logVarianceTerm;
+	private final double varianceTerm;
 	private final static Random randomGenerator = new Random();
 	
+	final static double PI2, LOG_PI2;
+	static {
+		PI2 = 2. * Math.PI;
+		LOG_PI2 = Math.log(PI2);
+	}
 	
 	/**
 	 * Creates a new pseudo-random, Gaussian distribution with zero mean
@@ -43,6 +50,8 @@ implements RandomDistribution {
 		
 		this.mean = mean;
 		this.variance = variance;
+		this.logVarianceTerm = LOG_PI2 + Math.log(variance);
+		this.varianceTerm = Math.pow(PI2 * variance, -.5);
 		this.deviation = Math.sqrt(variance);
 	}
 	
@@ -75,13 +84,19 @@ implements RandomDistribution {
 	}
 	
 	
-	public double probability(double n)
+	public double logProbability(double n)
 	{
-		double expArg = -.5 * (n - mean) * (n - mean) / variance;
-		return Math.pow(2. * Math.PI * variance, -.5) *
-		Math.exp(expArg);
+		double expArg = (n - mean) * (n - mean) / variance;
+		return -.5 * (logVarianceTerm + expArg);
 	}
 	
 	
-	private static final long serialVersionUID = 9127329839769283975L;
+	public double probability(double n)
+	{
+		double expArg = -.5 * (n - mean) * (n - mean) / variance;
+		return varianceTerm * Math.exp(expArg);
+	}
+	
+	
+	private static final long serialVersionUID = 8037555496366734729L;
 }

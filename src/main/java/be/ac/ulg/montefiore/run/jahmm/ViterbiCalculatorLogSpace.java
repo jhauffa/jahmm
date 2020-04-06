@@ -15,8 +15,7 @@ public class ViterbiCalculatorLogSpace extends ViterbiCalculator {
 	protected <O extends Observation> void computeFirstStep(Hmm<O> hmm, O o0)
 	{
 		for (int i = 0; i < hmm.nbStates(); i++) {
-			delta[0][i] = -hmm.getPi(i) -
-					LogSpace.log(hmm.getOpdf(i).probability(o0));
+			delta[0][i] = -hmm.getPi(i) - hmm.getOpdf(i).logProbability(o0);
 			psy[0][i] = 0;
 		}
 	}
@@ -38,7 +37,7 @@ public class ViterbiCalculatorLogSpace extends ViterbiCalculator {
 			}
 		}
 
-		delta[t][j] = minDelta - LogSpace.log(hmm.getOpdf(j).probability(o));
+		delta[t][j] = minDelta - hmm.getOpdf(j).logProbability(o);
 		psy[t][j] = min_psy;
 	}
 

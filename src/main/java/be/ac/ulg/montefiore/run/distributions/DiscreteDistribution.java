@@ -5,7 +5,7 @@
 
 package be.ac.ulg.montefiore.run.distributions;
 
-import java.io.*;
+import java.io.Serializable;
 
 
 /** 
@@ -23,6 +23,14 @@ extends Serializable
      * @return A pseudo-random number.
      */
     public int generate();
+
+
+    /**
+     * Returns the natural logarithm of the probability of a given number.
+     *
+     * @param n An integer.
+     */
+    public double logProbability(int n);
 
 
     /**

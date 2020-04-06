@@ -84,6 +84,16 @@ implements Opdf<ObservationVector>
 	}
 	
 	
+	public double logProbability(ObservationVector o)
+	{
+		if (o.dimension() != distribution.dimension())
+			throw new IllegalArgumentException("Vector has a wrong " +
+			"dimension");
+		
+		return distribution.logProbability(o.value);
+	}
+	
+	
 	public double probability(ObservationVector o)
 	{
 		if (o.dimension() != distribution.dimension())

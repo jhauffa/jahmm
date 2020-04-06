@@ -6,7 +6,12 @@
 package be.ac.ulg.montefiore.run.jahmm;
 
 import java.text.NumberFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.EnumMap;
+import java.util.EnumSet;
+import java.util.List;
 
 
 /**
@@ -76,7 +81,14 @@ implements Opdf<ObservationDiscrete<E>>
 	}
 	
 	
-	public double probability(ObservationDiscrete<E> o){
+	public double logProbability(ObservationDiscrete<E> o)
+	{
+		return distribution.logProbability(toIntegerMap.get(o.value));
+	}
+	
+	
+	public double probability(ObservationDiscrete<E> o)
+	{
 		return distribution.probability(toIntegerMap.get(o.value));
 	}
 	

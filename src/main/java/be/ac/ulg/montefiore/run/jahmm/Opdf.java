@@ -5,9 +5,9 @@
 
 package be.ac.ulg.montefiore.run.jahmm;
 
-import java.util.*;
-import java.io.*;
+import java.io.Serializable;
 import java.text.NumberFormat;
+import java.util.Collection;
 
 
 /**
@@ -16,11 +16,22 @@ import java.text.NumberFormat;
  * <p>
  * An <code>Opdf</code> can represent a probability function (if the 
  * observations can take discrete values) or a probability distribution (if
- * the observations are continous).
+ * the observations are continuous).
  */
 public interface Opdf<O extends Observation> 
 extends Cloneable, Serializable
 {
+    
+    /**
+     * Returns the natural logarithm of the probability (density) of an
+     * observation given a distribution.
+     *
+     * @param o An observation.
+     * @return The probability (density, if <code>o</code> takes continuous
+     *         values) of <code>o</code> for this function.
+     */
+    public double logProbability(O o);
+
     
     /**
      * Returns the probability (density) of an observation given a distribution.

@@ -84,14 +84,13 @@ public class HmmLogSpace<O extends Observation> extends Hmm<O> {
 		for (int i = 0; i < sseq.length-1; i++) {
 			probability = LogSpace.product(probability,
 				LogSpace.product(
-					LogSpace.log(getOpdf(sseq[i]).
-							probability(oseqIterator.next())),
+					getOpdf(sseq[i]).logProbability(oseqIterator.next()),
 					getAij(sseq[i], sseq[i+1])));
 		}
 
 		return LogSpace.product(probability,
-				LogSpace.log(getOpdf(sseq[sseq.length-1]).
-						probability(oseq.get(sseq.length-1))));
+				getOpdf(sseq[sseq.length-1]).
+						logProbability(oseq.get(sseq.length-1)));
 	}
 
 	private static final long serialVersionUID = 1L;

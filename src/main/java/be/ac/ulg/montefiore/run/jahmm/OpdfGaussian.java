@@ -33,7 +33,7 @@ implements Opdf<ObservationReal>
 	
 	/**
 	 * Builds a new gaussian probability distribution with a given mean and
-	 * covariance matrix.
+	 * variance.
 	 *
 	 * @param mean The distribution's mean.
 	 * @param variance The distribution's variance.
@@ -63,6 +63,12 @@ implements Opdf<ObservationReal>
 	public double variance()
 	{
 		return distribution.variance();
+	}
+	
+	
+	public double logProbability(ObservationReal o)
+	{
+		return distribution.logProbability(o.value);
 	}
 	
 	

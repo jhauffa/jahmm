@@ -42,7 +42,7 @@ implements DiscreteDistribution
 	 */
 	public PoissonDistribution(double mean)
 	{
-		if (mean < 0.)
+		if (mean <= 0.)
 			throw new IllegalArgumentException();
 		
 		this.mean = mean;
@@ -75,9 +75,15 @@ implements DiscreteDistribution
 	}
 	
 	
+	public double logProbability(int n)
+	{
+		return n * Math.log(mean) - logFactorial(n) - mean;
+	}
+	
+	
 	public double probability(int n)
 	{
-		return Math.exp(n * Math.log(mean) - logFactorial(n) - mean);
+		return Math.exp(logProbability(n));
 	}
 	
 	

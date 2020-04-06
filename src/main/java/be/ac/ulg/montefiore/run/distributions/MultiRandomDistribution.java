@@ -5,7 +5,7 @@
 
 package be.ac.ulg.montefiore.run.distributions;
 
-import java.io.*;
+import java.io.Serializable;
 
 
 /** 
@@ -32,6 +32,16 @@ extends Serializable
      * @return A pseudo-random vector.
      */
     public double[] generate();
+
+
+    /**
+     * Returns the natural logarithm of the probability (density) of a given
+     * vector.
+     *
+     * @param v A vector.
+     * @return The probability of the vector <code>v</code>.
+     */
+    public double logProbability(double[] v);
 
 
     /**

@@ -145,7 +145,7 @@ implements MultiRandomDistribution
 	}
 	
 	
-	public double probability(double[] v)
+	private double computeExpArg(double[] v)
 	{
 		if (v.length != dimension)
 			throw new IllegalArgumentException("Argument array size is not " +
@@ -153,13 +153,25 @@ implements MultiRandomDistribution
 		
 		double[][] vmm = SimpleMatrix.matrix(SimpleMatrix.minus(v, mean));
 		
-		double expArg =
-			(SimpleMatrix.times(SimpleMatrix.transpose(vmm),
+		return (SimpleMatrix.times(SimpleMatrix.transpose(vmm),
 					SimpleMatrix.times(covarianceInv(), vmm))[0][0]) * -.5;
-		
-		return Math.exp(expArg) / 
-		(Math.pow(2. * Math.PI, ((double) dimension) / 2.) * 
-				Math.pow(covarianceDet(), .5)); 
+	}
+	
+	
+	public double logProbability(double[] v)
+	{
+		double expArg = computeExpArg(v);
+		return -.5 * Math.log(covarianceDet()) +
+				(-.5 * dimension) * GaussianDistribution.LOG_PI2 + expArg;
+	}
+	
+	
+	public double probability(double[] v)
+	{
+		double expArg = computeExpArg(v);
+		return Math.exp(expArg) /
+				(Math.pow(GaussianDistribution.PI2, ((double) dimension) / 2.) *
+				Math.pow(covarianceDet(), .5));
 	}
 	
 	

@@ -81,7 +81,7 @@ public class ViterbiCalculator
 	{
 		for (int i = 0; i < hmm.nbStates(); i++) {
 			delta[0][i] = -Math.log(hmm.getPi(i)) -
-			Math.log(hmm.getOpdf(i).probability(o0));
+			hmm.getOpdf(i).logProbability(o0);
 			psy[0][i] = 0;
 		}
 	}
@@ -105,7 +105,7 @@ public class ViterbiCalculator
 			}
 		}
 		
-		delta[t][j] = minDelta - Math.log(hmm.getOpdf(j).probability(o));
+		delta[t][j] = minDelta - hmm.getOpdf(j).logProbability(o);
 		psy[t][j] = min_psy;
 	}
 	

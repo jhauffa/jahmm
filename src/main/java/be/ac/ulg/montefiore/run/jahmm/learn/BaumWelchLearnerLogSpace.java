@@ -145,7 +145,7 @@ public class BaumWelchLearnerLogSpace
 					xi[t][i][j] = LogSpace.product(fbc.alphaElement(t, i),
 							LogSpace.product(hmm.getAij(i, j),
 								LogSpace.product(
-									LogSpace.log(hmm.getOpdf(j).probability(o)),
+									hmm.getOpdf(j).logProbability(o),
 									fbc.betaElement(t+1, j))));
 					norm = LogSpace.sum(norm, xi[t][i][j]);
 				}

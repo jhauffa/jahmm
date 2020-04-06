@@ -22,7 +22,7 @@ implements Opdf<ObservationInteger>
 	
 	/**
 	 * Builds a new probability distribution which operates on integer values.
-	 * The probabilities are initialized so that the distribution is uniformaly
+	 * The probabilities are initialized so that the distribution is uniformly
 	 * distributed.
 	 *
 	 * @param nbEntries The number of values to which to associate
@@ -73,6 +73,12 @@ implements Opdf<ObservationInteger>
 	public int nbEntries()
 	{
 		return probabilities.length;
+	}
+	
+	
+	public double logProbability(ObservationInteger o)
+	{
+		return LogSpace.log(probability(o));	// probabilities can be 0
 	}
 	
 	

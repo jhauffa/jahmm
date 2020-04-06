@@ -26,7 +26,7 @@ public class OpdfGaussianMixture implements Opdf<ObservationReal>
 	
 	/**
 	 * Creates a Gaussian mixture distribution. The mean values of the
-	 * distributions are evently distributed between 0 and 1 and each variance
+	 * distributions are evenly distributed between 0 and 1 and each variance
 	 * is equal to 1.
 	 *
 	 * @param nbGaussians The number of gaussians that compose this mixture.
@@ -52,6 +52,12 @@ public class OpdfGaussianMixture implements Opdf<ObservationReal>
 	{
 		distribution = new GaussianMixtureDistribution(means, variances, 
 				proportions);
+	}
+	
+	
+	public double logProbability(ObservationReal o)
+	{
+		return distribution.logProbability(o.value);
 	}
 	
 	
