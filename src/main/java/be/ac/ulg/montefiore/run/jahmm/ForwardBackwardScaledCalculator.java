@@ -134,7 +134,8 @@ extends ForwardBackwardCalculator
 	}
 	
 	
-	private <O extends Observation> void
+	@Override
+	protected <O extends Observation> void
 	computeProbability(List<O> oseq, Hmm<? super O> hmm, 
 			EnumSet<Computation> flags)
 	{	

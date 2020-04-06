@@ -16,11 +16,11 @@ import java.util.List;
 public class ViterbiCalculator
 {	
 	/*
-	 * The psy and delta values, as described in Rabiner and Juand classical
+	 * The psy and delta values, as described in Rabiner and Juang classical
 	 * papers.
 	 */
-	private double[][] delta; 
-	private int[][] psy;
+	protected double[][] delta;
+	protected int[][] psy;
 	private int[] stateSequence;
 	private double lnProbability;
 	
@@ -42,11 +42,7 @@ public class ViterbiCalculator
 		psy = new int[oseq.size()][hmm.nbStates()];
 		stateSequence = new int[oseq.size()];
 		
-		for (int i = 0; i < hmm.nbStates(); i++) {
-			delta[0][i] = -Math.log(hmm.getPi(i)) - 
-			Math.log(hmm.getOpdf(i).probability(oseq.get(0)));
-			psy[0][i] = 0;
-		}
+		computeFirstStep(hmm, oseq.get(0));
 		
 		Iterator<? extends O> oseqIterator = oseq.iterator();
 		if (oseqIterator.hasNext())
@@ -79,9 +75,22 @@ public class ViterbiCalculator
 	
 	
 	/*
+	 * Computes delta and psy[0][j]
+	 */
+	protected <O extends Observation> void computeFirstStep(Hmm<O> hmm, O o0)
+	{
+		for (int i = 0; i < hmm.nbStates(); i++) {
+			delta[0][i] = -Math.log(hmm.getPi(i)) -
+			Math.log(hmm.getOpdf(i).probability(o0));
+			psy[0][i] = 0;
+		}
+	}
+	
+	
+	/*
 	 * Computes delta and psy[t][j] (t > 0) 
 	 */
-	private <O extends Observation> void
+	protected <O extends Observation> void
 	computeStep(Hmm<O> hmm, O o, int t, int j) 
 	{
 		double minDelta = Double.MAX_VALUE;

@@ -57,6 +57,15 @@ extends TestCase
 		bwHmm = bwsl.learn(hmm, sequences);
 
 		assertEquals(0., klc.distance(bwHmm, hmm), DELTA);
+
+		/* Model sequences using the log-space BW algorithm */
+		
+		BaumWelchLearnerLogSpace bwll = new BaumWelchLearnerLogSpace();
+		HmmLogSpace<ObservationInteger> hmmLog =
+				new HmmLogSpace<ObservationInteger>(hmm);
+		bwHmm = bwll.learn(hmmLog, sequences).toHmm();
+		
+		assertEquals(0., klc.distance(bwHmm, hmm), DELTA);
 	}
 	
 	

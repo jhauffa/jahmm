@@ -39,7 +39,7 @@ public class ForwardBackwardCalculator
 	
 	protected ForwardBackwardCalculator()
 	{
-	};
+	}
 	
 	
 	/**
@@ -196,7 +196,7 @@ public class ForwardBackwardCalculator
 	}
 	
 	
-	private <O extends Observation> void 
+	protected <O extends Observation> void
 	computeProbability(List<O> oseq, Hmm<? super O> hmm, 
 			EnumSet<Computation> flags)
 	{
