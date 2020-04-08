@@ -229,8 +229,6 @@ public class OpdfGaussianMixture implements Opdf<ObservationReal>
 		double[] num = new double[distribution.nbGaussians()];
 		double sum = 0.0;
 		
-		Arrays.fill(num, 0.0);
-		
 		for (int i = 0; i < distribution.nbGaussians(); i++)
 			for (int t = 0; t < weights.length; t++) {
 				num[i] += weights[t] * delta[i][t];
@@ -254,9 +252,6 @@ public class OpdfGaussianMixture implements Opdf<ObservationReal>
 		double[] num = new double[distribution.nbGaussians()];
 		double[] sum = new double[distribution.nbGaussians()];
 		
-		Arrays.fill(num, 0.0);
-		Arrays.fill(sum, 0.0);
-		
 		for (int i = 0; i < distribution.nbGaussians(); i++)
 			for (int t = 0; t < o.length; t++) {
 				num[i] += weights[t] * delta[i][t] * o[t].value;
@@ -279,9 +274,6 @@ public class OpdfGaussianMixture implements Opdf<ObservationReal>
 	{
 		double[] num = new double[distribution.nbGaussians()];
 		double[] sum = new double[distribution.nbGaussians()];
-		
-		Arrays.fill(num, 0.);
-		Arrays.fill(sum, 0.);
 		
 		for (int i = 0; i < distribution.nbGaussians(); i++) {
 			GaussianDistribution[] distributions = distribution.distributions();

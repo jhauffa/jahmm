@@ -53,7 +53,6 @@ extends ForwardBackwardCalculator
 			throw new IllegalArgumentException();
 		
 		ctFactors = new double[oseq.size()];
-		Arrays.fill(ctFactors, 0.);
 		
 		computeAlpha(hmm, oseq);
 		

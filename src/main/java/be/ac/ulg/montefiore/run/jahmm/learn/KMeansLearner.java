@@ -102,7 +102,6 @@ public class KMeansLearner<O extends Observation & CentroidFactory<? super O>>
 	private void learnPi(Hmm<?> hmm)
 	{	
 		double[] pi = new double[nbStates];
-		Arrays.fill(pi, 0.);
 		
 		for (List<? extends O> sequence : obsSeqs)
 			pi[clusters.clusterNb(sequence.get(0))]++;

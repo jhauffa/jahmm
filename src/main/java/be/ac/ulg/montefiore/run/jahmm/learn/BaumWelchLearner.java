@@ -62,10 +62,6 @@ public class BaumWelchLearner
 		double aijNum[][] = new double[hmm.nbStates()][hmm.nbStates()];
 		double aijDen[] = new double[hmm.nbStates()];
 		
-		Arrays.fill(aijDen, 0.);
-		for (int i = 0; i < hmm.nbStates(); i++)
-			Arrays.fill(aijNum[i], 0.);
-		
 		int g = 0;
 		for (List<? extends O> obsSeq : sequences) {	    
 			ForwardBackwardCalculator fbc = 
@@ -197,9 +193,6 @@ public class BaumWelchLearner
 	estimateGamma(double[][][] xi, ForwardBackwardCalculator fbc)
 	{
 		double[][] gamma = new double[xi.length + 1][xi[0].length];
-		
-		for (int t = 0; t < xi.length + 1; t++)
-			Arrays.fill(gamma[t], 0.);
 		
 		for (int t = 0; t < xi.length; t++)
 			for (int i = 0; i < xi[0].length; i++)
