@@ -30,7 +30,8 @@ extends OpdfReader<Opdf<?>>
 				new OpdfIntegerReader(),
 				new OpdfGaussianReader(),
 				new OpdfGaussianMixtureReader(),
-				new OpdfMultiGaussianReader() })
+				new OpdfMultiGaussianReader(),
+				new OpdfLogNormalReader() })
 			if (r.keyword().equals(st.sval)) {
 				st.pushBack();
 				return r.read(st);
