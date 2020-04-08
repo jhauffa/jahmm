@@ -5,7 +5,9 @@
 
 package be.ac.ulg.montefiore.run.jahmm;
 
-import java.util.*;
+import java.util.EnumSet;
+import java.util.Iterator;
+import java.util.List;
 
 
 /**
@@ -49,18 +51,7 @@ extends ForwardBackwardCalculator
 	ForwardBackwardScaledCalculator(List<? extends O> oseq,
 			Hmm<O> hmm, EnumSet<Computation> flags)
 	{
-		if (oseq.isEmpty())
-			throw new IllegalArgumentException();
-		
-		ctFactors = new double[oseq.size()];
-		
-		computeAlpha(hmm, oseq);
-		
-		if (flags.contains(Computation.BETA))
-			computeBeta(hmm, oseq);
-		
-		if (flags.contains(Computation.PROBABILITY))
-			computeProbability(oseq, hmm, flags);
+		super(oseq, hmm, flags);
 	}
 	
 	
@@ -73,7 +64,16 @@ extends ForwardBackwardCalculator
 	public <O extends Observation>
 	ForwardBackwardScaledCalculator(List<? extends O> oseq, Hmm<O> hmm)
 	{
-		this(oseq, hmm, EnumSet.of(Computation.ALPHA, Computation.PROBABILITY));
+		super(oseq, hmm);
+	}
+	
+	
+	@Override
+	protected <O extends Observation> void
+	compute(List<? extends O> oseq, Hmm<O> hmm, EnumSet<Computation> flags)
+	{
+		ctFactors = new double[oseq.size()];
+		super.compute(oseq, hmm, flags);
 	}
 	
 	
@@ -87,7 +87,7 @@ extends ForwardBackwardCalculator
 			computeAlphaInit(hmm, oseq.get(0), i);
 		scale(ctFactors, alpha, 0);
 		
-		Iterator<? extends O> seqIterator = oseq.iterator();
+		Iterator<O> seqIterator = oseq.iterator();
 		if (seqIterator.hasNext())
 			seqIterator.next();
 		

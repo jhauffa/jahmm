@@ -17,6 +17,7 @@ import java.util.List;
 public class ForwardBackwardCalculatorLogSpace extends ForwardBackwardCalculator
 {
 	private double lnProbability;
+	private double[] s;
 
 	public <O extends Observation>
 	ForwardBackwardCalculatorLogSpace(List<? extends O> oseq,
@@ -36,6 +37,15 @@ public class ForwardBackwardCalculatorLogSpace extends ForwardBackwardCalculator
 
 	@Override
 	protected <O extends Observation> void
+	compute(List<? extends O> oseq, Hmm<O> hmm, EnumSet<Computation> flags)
+	{
+		s = new double[hmm.nbStates()];
+		super.compute(oseq, hmm, flags);
+	}
+
+
+	@Override
+	protected <O extends Observation> void
 	computeAlphaInit(Hmm<? super O> hmm, O o, int i)
 	{
 		alpha[0][i] = LogSpace.product(hmm.getPi(i),
@@ -47,14 +57,11 @@ public class ForwardBackwardCalculatorLogSpace extends ForwardBackwardCalculator
 	protected <O extends Observation> void
 	computeAlphaStep(Hmm<? super O> hmm, O o, int t, int j)
 	{
-		double sum = LogSpace.ZERO;
+		for (int i = 0; i < s.length; i++)
+			s[i] = LogSpace.product(alpha[t-1][i], hmm.getAij(i, j));
 
-		for (int i = 0; i < hmm.nbStates(); i++) {
-			sum = LogSpace.sum(sum,
-					LogSpace.product(alpha[t-1][i], hmm.getAij(i, j)));
-		}
-
-		alpha[t][j] = LogSpace.product(sum, hmm.getOpdf(j).logProbability(o));
+		alpha[t][j] = LogSpace.product(LogSpace.sum(s),
+				hmm.getOpdf(j).logProbability(o));
 	}
 
 
@@ -77,15 +84,13 @@ public class ForwardBackwardCalculatorLogSpace extends ForwardBackwardCalculator
 	protected <O extends Observation> void
 	computeBetaStep(Hmm<? super O> hmm, O o, int t, int i)
 	{
-		double sum = LogSpace.ZERO;
-
-		for (int j = 0; j < hmm.nbStates(); j++) {
-			sum = LogSpace.sum(sum, LogSpace.product(beta[t+1][j],
+		for (int j = 0; j < s.length; j++) {
+			s[j] = LogSpace.product(beta[t+1][j],
 					LogSpace.product(hmm.getAij(i, j),
-							hmm.getOpdf(j).logProbability(o))));
+							hmm.getOpdf(j).logProbability(o)));
 		}
 
-		beta[t][i] = sum;
+		beta[t][i] = LogSpace.sum(s);
 	}
 
 
@@ -94,22 +99,20 @@ public class ForwardBackwardCalculatorLogSpace extends ForwardBackwardCalculator
 	computeProbability(List<O> oseq, Hmm<? super O> hmm,
 			EnumSet<Computation> flags)
 	{
-		lnProbability = LogSpace.ZERO;
-
+		double[] p;
 		if (flags.contains(Computation.ALPHA)) {
-			for (int i = 0; i < hmm.nbStates(); i++) {
-				lnProbability = LogSpace.sum(lnProbability,
-						alpha[oseq.size()-1][i]);
-			}
+			p = alpha[oseq.size()-1];
 		} else {
+			p = s;
 			for (int i = 0; i < hmm.nbStates(); i++) {
-				lnProbability = LogSpace.sum(lnProbability,
-						LogSpace.product(hmm.getPi(i), LogSpace.product(
+				p[i] = LogSpace.product(hmm.getPi(i),
+						LogSpace.product(
 								hmm.getOpdf(i).logProbability(oseq.get(0)),
-								beta[0][i])));
+								beta[0][i]));
 			}
 		}
 
+		lnProbability = LogSpace.sum(p);
 		probability = LogSpace.exp(lnProbability);
 	}
 

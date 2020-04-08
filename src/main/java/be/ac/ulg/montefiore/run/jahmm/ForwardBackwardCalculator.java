@@ -37,11 +37,6 @@ public class ForwardBackwardCalculator
 	protected double probability;
 	
 	
-	protected ForwardBackwardCalculator()
-	{
-	}
-	
-	
 	/**
 	 * Computes the probability of occurrence of an observation sequence
 	 * given a Hidden Markov Model.
@@ -57,15 +52,8 @@ public class ForwardBackwardCalculator
 	{
 		if (oseq.isEmpty())
 			throw new IllegalArgumentException("Invalid empty sequence");
-		
-		if (flags.contains(Computation.ALPHA))
-			computeAlpha(hmm, oseq);
-		
-		if (flags.contains(Computation.BETA))
-			computeBeta(hmm, oseq);
-		
-		if (flags.contains(Computation.PROBABILITY))
-			computeProbability(oseq, hmm, flags);
+
+		compute(oseq, hmm, flags);
 	}
 	
 	
@@ -79,6 +67,21 @@ public class ForwardBackwardCalculator
 	ForwardBackwardCalculator(List<? extends O> oseq, Hmm<O> hmm)
 	{
 		this(oseq, hmm, EnumSet.of(Computation.ALPHA, Computation.PROBABILITY));
+	}
+	
+	
+	protected <O extends Observation> void
+	compute(List<? extends O> oseq, Hmm<O> hmm,
+			EnumSet<Computation> flags)
+	{
+		if (flags.contains(Computation.ALPHA))
+			computeAlpha(hmm, oseq);
+		
+		if (flags.contains(Computation.BETA))
+			computeBeta(hmm, oseq);
+		
+		if (flags.contains(Computation.PROBABILITY))
+			computeProbability(oseq, hmm, flags);
 	}
 	
 	

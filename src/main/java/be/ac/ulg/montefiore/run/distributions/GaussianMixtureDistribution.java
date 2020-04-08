@@ -139,14 +139,13 @@ implements RandomDistribution
 	
 	public double logProbability(double n)
 	{
-		double sum = LogSpace.ZERO;
+		double[] s = new double[distributions.length];
 		
 		for (int i = 0; i < distributions.length; i++)
-			sum = LogSpace.sum(sum,
-					LogSpace.product(distributions[i].logProbability(n),
-									 LogSpace.log(proportions[i])));
+			s[i] = LogSpace.product(distributions[i].logProbability(n),
+					LogSpace.log(proportions[i]));
 		
-		return sum;
+		return LogSpace.sum(s);
 	}
 	
 	
