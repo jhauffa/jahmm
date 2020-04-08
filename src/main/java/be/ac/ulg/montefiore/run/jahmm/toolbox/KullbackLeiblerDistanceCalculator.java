@@ -16,8 +16,8 @@ import be.ac.ulg.montefiore.run.jahmm.*;
  * The distance metric is similar to the Kullback-Leibler distance defined
  * on distributions.  More information can be found in
  * <i>A Probabilistic Distance Measure For HMMs</i> by
- * <i>Rabiner</i> and <i>Juang</i> (AT&T Technical Journal, vol. 64, Feb. 1985,
- * pages 391-408).
+ * <i>Rabiner</i> and <i>Juang</i> (AT&amp;T Technical Journal, vol. 64, Feb.
+ * 1985, pages 391-408).
  * <p>
  * This distance measure is not symetric: <code>distance(hmm1, hmm2)</code>
  * is not necessary equal to <code>distance(hmm2, hmm1)</code>.  To get a

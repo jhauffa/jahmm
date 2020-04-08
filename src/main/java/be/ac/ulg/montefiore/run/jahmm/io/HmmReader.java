@@ -26,7 +26,7 @@ import be.ac.ulg.montefiore.run.jahmm.*;
  * <p>
  * Then comes a description of each state.  The n-th description is
  * related to the n-th state.  A state description begins with the keywords
- * <tt>State</tt> and </tt>Pi</tt>, followed by the initial probability of
+ * <tt>State</tt> and <tt>Pi</tt>, followed by the initial probability of
  * this state.  Then comes the letter <tt>A</tt> followed by the state
  * transition probabilities separated by a space, in the right order.
  * Then comes a description of an observation distribution which depends on

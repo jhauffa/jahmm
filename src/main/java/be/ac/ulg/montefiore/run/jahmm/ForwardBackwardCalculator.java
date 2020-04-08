@@ -162,10 +162,9 @@ public class ForwardBackwardCalculator
 	 *          smaller than the length of the sequence that helped generating
 	 *          the array).
 	 * @param i A state index of the HMM that helped generating the array.
-	 * @throws {@link UnsupportedOperationException 
-	 *          UnsupportedOperationException} if alpha array has not been
-	 *          computed.
 	 * @return The <i>alpha</i> array (t, i) element.
+	 * @throws UnsupportedOperationException if alpha array has not been
+	 *         computed.
 	 */ 
 	public double alphaElement(int t, int i)
 	{
@@ -183,10 +182,9 @@ public class ForwardBackwardCalculator
 	 * @param t The temporal argument of the array (positive but smaller than
 	 *          the length of the sequence that helped generating the array).
 	 * @param i A state index of the HMM that helped generating the array.
-	 * @throws {@link UnsupportedOperationException 
-	 *          UnsupportedOperationException} if beta array has not been
-	 *          computed.
 	 * @return The <i>beta</i> beta (t, i) element.
+	 * @throws UnsupportedOperationException if beta array has not been
+	 *         computed.
 	 */ 
 	public double betaElement(int t, int i)
 	{
