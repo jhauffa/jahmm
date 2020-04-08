@@ -44,7 +44,7 @@ public class KMeansLearner<O extends Observation & CentroidFactory<? super O>>
 		this.opdfFactory = opdfFactory;
 		this.nbStates = nbStates;
 		
-		List<? extends O> observations = flat(sequences);
+		List<? extends O> observations = Observation.flat(sequences);
 		clusters = new Clusters<O>(nbStates, observations);
 		terminated = false;
 	}
@@ -185,17 +185,6 @@ public class KMeansLearner<O extends Observation & CentroidFactory<? super O>>
 		}
 		
 		return !modif;
-	}
-	
-	
-	static <T> List<T> flat(List<? extends List<? extends T>> lists)
-	{	
-		List<T> v = new ArrayList<T>();
-		
-		for (List<? extends T> list : lists)
-			v.addAll(list);
-		
-		return v;
 	}
 }
 

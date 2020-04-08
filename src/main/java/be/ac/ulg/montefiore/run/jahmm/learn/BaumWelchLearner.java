@@ -103,7 +103,7 @@ public class BaumWelchLearner
 		
 		/* pdfs computation */
 		for (int i = 0; i < hmm.nbStates(); i++) {
-			List<O> observations = KMeansLearner.flat(sequences);
+			List<O> observations = Observation.flat(sequences);
 			double[] weights = new double[observations.size()];
 			double sum = 0.;
 			int j = 0;

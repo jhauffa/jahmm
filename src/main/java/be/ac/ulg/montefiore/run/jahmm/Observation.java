@@ -5,7 +5,9 @@
 
 package be.ac.ulg.montefiore.run.jahmm;
 
-import java.text.*;
+import java.text.NumberFormat;
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -31,6 +33,17 @@ public abstract class Observation
 	public String toString()
 	{
 		return toString(NumberFormat.getInstance());
+	}
+    
+    
+	public static <T> List<T> flat(List<? extends List<? extends T>> lists)
+	{
+		List<T> v = new ArrayList<T>();
+		
+		for (List<? extends T> list : lists)
+			v.addAll(list);
+		
+		return v;
 	}
 }
 

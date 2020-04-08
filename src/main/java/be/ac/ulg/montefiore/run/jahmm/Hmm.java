@@ -347,5 +347,11 @@ implements Serializable, Cloneable
 	}
 	
 	
+	public static <O extends Observation> HmmBuilder<O> builder(int nbStates)
+	{
+		return new HmmBuilder<O>(nbStates);
+	}
+	
+	
 	private static final long serialVersionUID = 2L;	
 }
