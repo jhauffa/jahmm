@@ -10,19 +10,29 @@ public class LogSpace {
 	public static final Double ZERO = Double.NaN;
 	public static final Double ONE = 0.0;
 
-	public static double exp(double x) {
-		if (Double.isNaN(x))
-			return 0.0;
+	public static LogSpace INST = new LogSpace();
+
+	protected double expImpl(double x) {
 		return Math.exp(x);
 	}
 
-	public static double log(double x) {
-		if (x == 0.0)
-			return ZERO;
+	public double exp(double x) {
+		if (Double.isNaN(x))
+			return 0.0;
+		return expImpl(x);
+	}
+
+	protected double logImpl(double x) {
 		return Math.log(x);
 	}
 
-	public static double sum(double[] x) {
+	public double log(double x) {
+		if (x == 0.0)
+			return ZERO;
+		return logImpl(x);
+	}
+
+	public double sum(double[] x) {
 		double max = Double.NEGATIVE_INFINITY;
 		for (double v : x)
 			if (v > max)
@@ -34,7 +44,7 @@ public class LogSpace {
 		return max + log(sumExp);
 	}
 
-	public static double sum(double[][] x) {
+	public double sum(double[][] x) {
 		double max = Double.NEGATIVE_INFINITY;
 		for (double[] r : x)
 			for (double v : r)

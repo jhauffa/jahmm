@@ -37,7 +37,7 @@ public class BaumWelchLearnerLogSpace
 
 		double allGamma[][][] = new double[sequences.size()][][];
 		double[] s = new double[allGamma.length];
-		double piDen = LogSpace.log(allGamma.length);
+		double piDen = LogSpace.INST.log(allGamma.length);
 
 		/* update transition probabilities Aij */
 		double aijDen[] = new double[hmm.nbStates()];
@@ -60,13 +60,13 @@ public class BaumWelchLearnerLogSpace
 				os[0] = aijDen[i];
 				for (int t = 0; t < os.length - 1; t++)
 					os[t + 1] = gamma[t][i];
-				aijDen[i] = LogSpace.sum(os);
+				aijDen[i] = LogSpace.INST.sum(os);
 
 				for (int j = 0; j < hmm.nbStates(); j++) {
 					os[0] = aijNum[i][j];
 					for (int t = 0; t < os.length - 1; t++)
 						os[t + 1] = xi[t][i][j];
-					aijNum[i][j] = LogSpace.sum(os);
+					aijNum[i][j] = LogSpace.INST.sum(os);
 				}
 			}
 		}
@@ -79,7 +79,7 @@ public class BaumWelchLearnerLogSpace
 		for (int i = 0; i < hmm.nbStates(); i++) {
 			for (int t = 0; t < allGamma.length; t++)
 				s[t] = allGamma[t][0][i];
-			nhmm.setPi(i, LogSpace.quotient(LogSpace.sum(s), piDen));
+			nhmm.setPi(i, LogSpace.quotient(LogSpace.INST.sum(s), piDen));
 		}
 
 		/* update output PDFs */
@@ -91,10 +91,12 @@ public class BaumWelchLearnerLogSpace
 				for (double[] gammaT : gamma)
 					weights[obsIdx++] = gammaT[i];
 			}
-			double sum = LogSpace.sum(weights);
+			double sum = LogSpace.INST.sum(weights);
 
-			for (int j = 0; j < obsIdx; j++)
-				weights[j] = LogSpace.exp(LogSpace.quotient(weights[j], sum));
+			for (int j = 0; j < obsIdx; j++) {
+				weights[j] = LogSpace.INST.exp(
+						LogSpace.quotient(weights[j], sum));
+			}
 
 			nhmm.getOpdf(i).fit(observations, weights);
 		}
@@ -151,7 +153,7 @@ public class BaumWelchLearnerLogSpace
 									fbc.betaElement(t+1, j))));
 				}
 			}
-			double norm = LogSpace.sum(xi[t]);
+			double norm = LogSpace.INST.sum(xi[t]);
 			for (int i = 0; i < hmm.nbStates(); i++)
 				for (int j = 0; j < hmm.nbStates(); j++)
 					xi[t][i][j] = LogSpace.quotient(xi[t][i][j], norm);
@@ -172,7 +174,7 @@ public class BaumWelchLearnerLogSpace
 				gamma[t][i] = LogSpace.product(fbc.alphaElement(t, i),
 						fbc.betaElement(t, i));
 			}
-			double norm = LogSpace.sum(gamma[t]);
+			double norm = LogSpace.INST.sum(gamma[t]);
 			for (int i = 0; i < xi[0].length; i++)
 				gamma[t][i] = LogSpace.quotient(gamma[t][i], norm);
 		}

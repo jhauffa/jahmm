@@ -60,7 +60,7 @@ public class ForwardBackwardCalculatorLogSpace extends ForwardBackwardCalculator
 		for (int i = 0; i < s.length; i++)
 			s[i] = LogSpace.product(alpha[t-1][i], hmm.getAij(i, j));
 
-		alpha[t][j] = LogSpace.product(LogSpace.sum(s),
+		alpha[t][j] = LogSpace.product(LogSpace.INST.sum(s),
 				hmm.getOpdf(j).logProbability(o));
 	}
 
@@ -90,7 +90,7 @@ public class ForwardBackwardCalculatorLogSpace extends ForwardBackwardCalculator
 							hmm.getOpdf(j).logProbability(o)));
 		}
 
-		beta[t][i] = LogSpace.sum(s);
+		beta[t][i] = LogSpace.INST.sum(s);
 	}
 
 
@@ -112,8 +112,8 @@ public class ForwardBackwardCalculatorLogSpace extends ForwardBackwardCalculator
 			}
 		}
 
-		lnProbability = LogSpace.sum(p);
-		probability = LogSpace.exp(lnProbability);
+		lnProbability = LogSpace.INST.sum(p);
+		probability = LogSpace.INST.exp(lnProbability);
 	}
 
 

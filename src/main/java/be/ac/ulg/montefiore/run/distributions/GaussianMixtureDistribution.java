@@ -143,9 +143,9 @@ implements RandomDistribution
 		
 		for (int i = 0; i < distributions.length; i++)
 			s[i] = LogSpace.product(distributions[i].logProbability(n),
-					LogSpace.log(proportions[i]));
+					LogSpace.INST.log(proportions[i]));
 		
-		return LogSpace.sum(s);
+		return LogSpace.INST.sum(s);
 	}
 	
 	

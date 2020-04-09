@@ -78,7 +78,7 @@ implements Opdf<ObservationInteger>
 	
 	public double logProbability(ObservationInteger o)
 	{
-		return LogSpace.log(probability(o));	// probabilities can be 0
+		return LogSpace.INST.log(probability(o));	// probabilities can be 0
 	}
 	
 	

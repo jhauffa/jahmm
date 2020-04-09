@@ -14,9 +14,9 @@ public class HmmLogSpace<O extends Observation> extends Hmm<O> {
 	{
 		super(hmm.nbStates());
 		for (int i = 0; i < nbStates(); i++) {
-			setPi(i, LogSpace.log(hmm.getPi(i)));
+			setPi(i, LogSpace.INST.log(hmm.getPi(i)));
 			for (int j = 0; j < nbStates(); j++)
-				setAij(i, j, LogSpace.log(hmm.getAij(i, j)));
+				setAij(i, j, LogSpace.INST.log(hmm.getAij(i, j)));
 			setOpdf(i, hmm.getOpdf(i).clone());
 		}
 	}
@@ -25,9 +25,9 @@ public class HmmLogSpace<O extends Observation> extends Hmm<O> {
 	{
 		Hmm<O> hmm = new Hmm<O>(nbStates());
 		for (int i = 0; i < nbStates(); i++) {
-			hmm.setPi(i, LogSpace.exp(getPi(i)));
+			hmm.setPi(i, LogSpace.INST.exp(getPi(i)));
 			for (int j = 0; j < nbStates(); j++)
-				hmm.setAij(i, j, LogSpace.exp(getAij(i, j)));
+				hmm.setAij(i, j, LogSpace.INST.exp(getAij(i, j)));
 			hmm.setOpdf(i, getOpdf(i).clone());
 		}
 		return hmm;
@@ -69,7 +69,7 @@ public class HmmLogSpace<O extends Observation> extends Hmm<O> {
 	@Override
 	public double probability(List<? extends O> oseq, int[] sseq)
 	{
-		return LogSpace.exp(probability(oseq, sseq));
+		return LogSpace.INST.exp(probability(oseq, sseq));
 	}
 
 	public double lnProbability(List<? extends O> oseq, int[] sseq)
